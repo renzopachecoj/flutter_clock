@@ -123,7 +123,7 @@ class _DigitalClockState extends State<DigitalClock> {
       fontWeight: FontWeight.w300,
     );
 
-    final double PADDING = 5;
+    const double PADDING = 5;
 
     final cardsRow = new Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
