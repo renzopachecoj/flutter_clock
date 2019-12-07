@@ -124,7 +124,7 @@ class _DigitalClockState extends State<DigitalClock> {
           child: Align(
             alignment: Alignment.center,
             child: AnimatedContainer(
-              curve: Curves.bounceOut,
+              curve: Curves.bounceInOut,
               duration: Duration(milliseconds: 500),
               height: double.parse(second) * (clockStyle.fontSize / 60),
               width: double.parse(second) * (clockStyle.fontSize / 60),
@@ -148,15 +148,12 @@ class _DigitalClockState extends State<DigitalClock> {
         Align(
           alignment: Alignment.center,
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              Padding(
-                padding: EdgeInsets.all(MIN_PADDING),
-                child: DefaultTextStyle(
-                  style: clockStyle,
-                  child: Text(hour),
-                ),
+              DefaultTextStyle(
+                style: clockStyle,
+                child: Text(hour),
               ),
               Container(
                 height: clockStyle.fontSize,
@@ -166,12 +163,9 @@ class _DigitalClockState extends State<DigitalClock> {
                   color: Colors.transparent,
                 ),
               ),
-              Padding(
-                padding: EdgeInsets.all(MIN_PADDING),
-                child: DefaultTextStyle(
-                  style: clockStyle,
-                  child: Text(minute),
-                ),
+              DefaultTextStyle(
+                style: clockStyle,
+                child: Text(minute),
               ),
             ],
           ),
@@ -246,6 +240,7 @@ class _DigitalClockState extends State<DigitalClock> {
                 ),
               ),
             ),
+            //Clock card is only a placeholder. Doesnt get any alarm info
             Card(
               elevation: 5.0,
               color: colors[_Element.background],
@@ -269,7 +264,7 @@ class _DigitalClockState extends State<DigitalClock> {
                       padding: EdgeInsets.all(MAX_PADDING),
                       child: DefaultTextStyle(
                         style: cardStyle,
-                        child: Text("Next alarm: \n5:00"),
+                        child: Text("Next alarm:\n5:00"),
                       ),
                     ),
                   ],
