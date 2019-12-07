@@ -25,4 +25,7 @@ flutter:
     - family:  WeatherIcons
       fonts:
         - asset: fonts/WeatherIcons.ttf
+  assets:
+    - assets/lightThemeWallpaper.png
+    - assets/darkThemeWallpaper.png
     

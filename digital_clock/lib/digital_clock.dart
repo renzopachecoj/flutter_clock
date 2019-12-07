@@ -10,18 +10,24 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 enum _Element {
+  wallpaper,
   background,
-  text,
+  clock_text,
+  card_text,
 }
 
 final _lightTheme = {
-  _Element.background: Colors.white,
-  _Element.text: Colors.black,
+  _Element.wallpaper: 'assets/lightThemeWallpaper.png',
+  _Element.background: Colors.white70,
+  _Element.clock_text: Colors.black,
+  _Element.card_text: Colors.black,
 };
 
 final _darkTheme = {
-  _Element.background: Colors.black,
-  _Element.text: Colors.white,
+  _Element.wallpaper: 'assets/darkThemeWallpaper.png',
+  _Element.background: Colors.black54,
+  _Element.clock_text: Colors.white,
+  _Element.card_text: Colors.white,
 };
 
 class DigitalClock extends StatefulWidget {
@@ -96,95 +102,81 @@ class _DigitalClockState extends State<DigitalClock> {
     final month = DateFormat('MMM').format(_dateTime);
 
     final clockStyle = TextStyle(
-      color: colors[_Element.text],
+      color: colors[_Element.clock_text],
       fontFamily: 'Google Sans',
-      fontSize: 110,
+      fontSize: 160,
       fontWeight: FontWeight.bold,
     );
 
     final cardStyle = TextStyle(
-      color: colors[_Element.text],
+      color: colors[_Element.card_text],
       fontFamily: 'Google Sans',
-      fontSize: 20,
-      fontWeight: FontWeight.w100,
+      fontSize: 18,
+      fontWeight: FontWeight.bold,
     );
 
     const double MIN_PADDING = 2;
-    const double MAX_PADDING = 4;
+    const double MAX_PADDING = 5;
 
-    final clockContainer = new Container(
-      child: Stack(
-        children: <Widget>[
-          if (Theme.of(context).brightness == Brightness.light)
-            (Positioned.fill(
-              child: Align(
-                alignment: Alignment.center,
-                child: AnimatedContainer(
-                  duration: Duration(seconds: 1),
-                  height: (double.parse(second) * 250) / 60,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    gradient: new LinearGradient(
-                      colors: [
-                        Colors.pinkAccent,
-                        Colors.yellow.withAlpha(200),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ))
-          else
-            (Positioned.fill(
-              child: Align(
-                alignment: Alignment.center,
-                child: AnimatedContainer(
-                  duration: Duration(seconds: 1),
-                  height: (double.parse(second) * 250) / 60,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    gradient: new LinearGradient(
-                      colors: [
-                        Colors.deepPurple,
-                        Colors.teal,
-                        Colors.cyanAccent,
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            )),
-          Align(
+    final clockContainer = new Stack(
+      children: <Widget>[
+        Positioned.fill(
+          child: Align(
             alignment: Alignment.center,
-            child: Container(
-              width: 250,
-              decoration: new BoxDecoration(
+            child: AnimatedContainer(
+              curve: Curves.bounceOut,
+              duration: Duration(milliseconds: 500),
+              height: double.parse(second) * (clockStyle.fontSize / 60),
+              width: double.parse(second) * (clockStyle.fontSize / 60),
+              decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: Colors.transparent,
-                border:
-                    new Border.all(color: colors[_Element.text], width: 1.0),
-              ),
-              child: Padding(
-                padding: EdgeInsets.all(MAX_PADDING),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    DefaultTextStyle(
-                      style: clockStyle,
-                      child: Text(hour),
-                    ),
-                    DefaultTextStyle(
-                      style: clockStyle,
-                      child: Text(minute),
-                    ),
-                  ],
+                gradient: new LinearGradient(
+                  colors: (Theme.of(context).brightness == Brightness.light)
+                      ? [
+                          Colors.pinkAccent,
+                          Colors.yellow.withAlpha(200),
+                        ]
+                      : [
+                          Colors.tealAccent,
+                          Colors.cyan.withAlpha(200),
+                        ],
                 ),
               ),
             ),
           ),
-        ],
-      ),
+        ),
+        Align(
+          alignment: Alignment.center,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.all(MIN_PADDING),
+                child: DefaultTextStyle(
+                  style: clockStyle,
+                  child: Text(hour),
+                ),
+              ),
+              Container(
+                height: clockStyle.fontSize,
+                width: clockStyle.fontSize,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.transparent,
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.all(MIN_PADDING),
+                child: DefaultTextStyle(
+                  style: clockStyle,
+                  child: Text(minute),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
 
     final cardsContainer = new Container(
@@ -195,11 +187,10 @@ class _DigitalClockState extends State<DigitalClock> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Card(
-              elevation: 2.0,
+              elevation: 5.0,
               color: colors[_Element.background],
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30),
-                side: BorderSide(color: Colors.lightBlueAccent, width: 1.0),
+                borderRadius: BorderRadius.circular(100),
               ),
               child: Padding(
                 padding: EdgeInsets.all(MAX_PADDING),
@@ -207,60 +198,18 @@ class _DigitalClockState extends State<DigitalClock> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    if (_condition == "sunny")
-                      (Padding(
-                          padding: EdgeInsets.all(MAX_PADDING),
-                          child: Icon(
-                            WeatherIcons.weather_sunny,
-                            color: Colors.lightBlueAccent,
-                          )))
-                    else if (_condition == "snowy")
-                      (Padding(
-                          padding: EdgeInsets.all(MAX_PADDING),
-                          child: Icon(
-                            WeatherIcons.weather_snowy,
-                            color: Colors.lightBlueAccent,
-                          )))
-                    else if (_condition == "cloudy")
-                      (Padding(
-                          padding: EdgeInsets.all(MAX_PADDING),
-                          child: Icon(
-                            WeatherIcons.weather_cloudy,
-                            color: Colors.lightBlueAccent,
-                          )))
-                    else if (_condition == "foggy")
-                      (Padding(
-                          padding: EdgeInsets.all(MAX_PADDING),
-                          child: Icon(
-                            WeatherIcons.weather_fog,
-                            color: Colors.lightBlueAccent,
-                          )))
-                    else if (_condition == "rainy")
-                      (Padding(
-                          padding: EdgeInsets.all(MAX_PADDING),
-                          child: Icon(
-                            WeatherIcons.weather_rainy,
-                            color: Colors.lightBlueAccent,
-                          )))
-                    else if (_condition == "thunderstorm")
-                      (Padding(
-                          padding: EdgeInsets.all(MAX_PADDING),
-                          child: Icon(
-                            WeatherIcons.weather_lightning,
-                            color: Colors.lightBlueAccent,
-                          )))
-                    else if (_condition == "windy")
-                      (Padding(
-                          padding: EdgeInsets.all(MAX_PADDING),
-                          child: Icon(
-                            WeatherIcons.weather_windy_variant,
-                            color: Colors.lightBlueAccent,
-                          ))),
+                    Padding(
+                        padding: EdgeInsets.all(MAX_PADDING),
+                        child: Icon(
+                          getWeatherIcon(),
+                          color: colors[_Element.card_text],
+                          size: cardStyle.fontSize * 2,
+                        )),
                     Padding(
                       padding: EdgeInsets.all(MAX_PADDING),
                       child: DefaultTextStyle(
                         style: cardStyle,
-                        child: Text(_temperature),
+                        child: Text("Temperature: \n" + _temperature),
                       ),
                     ),
                   ],
@@ -268,11 +217,10 @@ class _DigitalClockState extends State<DigitalClock> {
               ),
             ),
             Card(
-              elevation: 2.0,
+              elevation: 5.0,
               color: colors[_Element.background],
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30),
-                side: BorderSide(color: Colors.lightGreen, width: 1.0),
+                borderRadius: BorderRadius.circular(100),
               ),
               child: Padding(
                 padding: EdgeInsets.all(MAX_PADDING),
@@ -284,20 +232,14 @@ class _DigitalClockState extends State<DigitalClock> {
                         padding: EdgeInsets.all(MAX_PADDING),
                         child: Icon(
                           Icons.calendar_today,
-                          color: Colors.lightGreen,
+                          color: colors[_Element.card_text],
+                          size: cardStyle.fontSize * 2,
                         )),
                     Padding(
                       padding: EdgeInsets.all(MAX_PADDING),
                       child: DefaultTextStyle(
                         style: cardStyle,
-                        child: Text(day),
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(MAX_PADDING),
-                      child: DefaultTextStyle(
-                        style: cardStyle,
-                        child: Text(month),
+                        child: Text("Today is: \n" + month + ", " + day),
                       ),
                     ),
                   ],
@@ -305,11 +247,10 @@ class _DigitalClockState extends State<DigitalClock> {
               ),
             ),
             Card(
-              elevation: 2.0,
+              elevation: 5.0,
               color: colors[_Element.background],
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30),
-                side: new BorderSide(color: Colors.pinkAccent, width: 1.0),
+                borderRadius: BorderRadius.circular(100),
               ),
               child: Padding(
                 padding: EdgeInsets.all(MAX_PADDING),
@@ -321,13 +262,14 @@ class _DigitalClockState extends State<DigitalClock> {
                         padding: EdgeInsets.all(MAX_PADDING),
                         child: Icon(
                           Icons.alarm,
-                          color: Colors.pinkAccent,
+                          color: colors[_Element.card_text],
+                          size: cardStyle.fontSize * 2,
                         )),
                     Padding(
                       padding: EdgeInsets.all(MAX_PADDING),
                       child: DefaultTextStyle(
                         style: cardStyle,
-                        child: Text("5:00"),
+                        child: Text("Next alarm: \n5:00"),
                       ),
                     ),
                   ],
@@ -340,18 +282,15 @@ class _DigitalClockState extends State<DigitalClock> {
     );
 
     return new Scaffold(
-      backgroundColor: colors[_Element.background],
-      body: Card(
-        elevation: 2.0,
-        color: colors[_Element.background],
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-          side: BorderSide(color: colors[_Element.background], width: 1.0),
-        ),
-        child: Padding(
-          padding: EdgeInsets.all(MIN_PADDING),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      body: Stack(
+        children: <Widget>[
+          Image.asset(
+            colors[_Element.wallpaper],
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisSize: MainAxisSize.max,
             children: <Widget>[
@@ -359,8 +298,25 @@ class _DigitalClockState extends State<DigitalClock> {
               cardsContainer,
             ],
           ),
-        ),
+        ],
       ),
     );
+  }
+
+  IconData getWeatherIcon() {
+    if (_condition == "cloudy")
+      return WeatherIcons.weather_cloudy;
+    else if (_condition == "foggy")
+      return WeatherIcons.weather_fog;
+    else if (_condition == "rainy")
+      return WeatherIcons.weather_rainy;
+    else if (_condition == "snowy")
+      return WeatherIcons.weather_snowy;
+    else if (_condition == "sunny")
+      return Icons.wb_sunny;
+    else if (_condition == "thunderstorm")
+      return WeatherIcons.weather_lightning;
+    else if (_condition == "windy") return WeatherIcons.weather_windy_variant;
+    return Icons.question_answer;
   }
 }

@@ -100,14 +100,12 @@ class ClockModel extends ChangeNotifier {
 
   /// Temperature high with unit of measurement.
   String get highString {
-    String space = ' ';
-    return '${high.toStringAsFixed(0)}$space$unitString';
+    return '${high.toStringAsFixed(0)}$unitString';
   }
 
   /// Temperature low with unit of measurement.
   String get lowString {
-    String space = ' ';
-    return '${low.toStringAsFixed(0)}$space$unitString';
+    return '${low.toStringAsFixed(0)}$unitString';
   }
 
   /// Temperature unit of measurement with degrees.
