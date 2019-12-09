@@ -12,7 +12,7 @@ import 'package:flutter/material.dart';
 
 import 'digital_clock.dart';
 
-void main(){
+void main() {
   // A temporary measure until Platform supports web and TargetPlatform supports
   // macOS.
   if (!kIsWeb && Platform.isMacOS) {
@@ -30,9 +30,10 @@ void main(){
   //
   // Your job is to edit [DigitalClock], or replace it with your
   // own clock widget. (Look in digital_clock.dart for more details!)
-  
-  SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeRight])
-    .then((_) {
-      runApp(ClockCustomizer((ClockModel model) => DigitalClock(model)));
-    });
+
+  SystemChrome.setPreferredOrientations(
+          [DeviceOrientation.landscapeRight, DeviceOrientation.landscapeLeft])
+      .then((_) {
+    runApp(ClockCustomizer((ClockModel model) => DigitalClock(model)));
+  });
 }

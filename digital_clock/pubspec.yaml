@@ -27,5 +27,6 @@ flutter:
         - asset: fonts/WeatherIcons.ttf
   assets:
     - assets/lightThemeWallpaper.png
+    - assets/lightThemeWallpaperVariant.png
     - assets/darkThemeWallpaper.png
     

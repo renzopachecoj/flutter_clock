@@ -25,7 +25,7 @@ final _lightTheme = {
 
 final _darkTheme = {
   _Element.wallpaper: 'assets/darkThemeWallpaper.png',
-  _Element.background: Colors.black54,
+  _Element.background: Colors.black38,
   _Element.clock_text: Colors.white,
   _Element.card_text: Colors.white,
 };
@@ -104,7 +104,14 @@ class _DigitalClockState extends State<DigitalClock> {
     final clockStyle = TextStyle(
       color: colors[_Element.clock_text],
       fontFamily: 'Google Sans',
-      fontSize: 160,
+      fontSize: 150,
+      fontWeight: FontWeight.bold,
+    );
+
+    final clockStyleSmall = TextStyle(
+      color: colors[_Element.clock_text],
+      fontFamily: 'Google Sans',
+      fontSize: 35,
       fontWeight: FontWeight.bold,
     );
 
@@ -118,57 +125,51 @@ class _DigitalClockState extends State<DigitalClock> {
     const double MIN_PADDING = 2;
     const double MAX_PADDING = 5;
 
-    final clockContainer = new Stack(
+    final clockContainer = new Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
-        Positioned.fill(
-          child: Align(
-            alignment: Alignment.center,
-            child: AnimatedContainer(
-              curve: Curves.bounceInOut,
-              duration: Duration(milliseconds: 500),
-              height: double.parse(second) * (clockStyle.fontSize / 60),
-              width: double.parse(second) * (clockStyle.fontSize / 60),
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                gradient: new LinearGradient(
+        DefaultTextStyle(
+          style: clockStyle,
+          child: Text(hour),
+        ),
+        DefaultTextStyle(
+          style: clockStyleSmall,
+          child: Text("h"),
+        ),
+        Padding(
+          padding: EdgeInsets.all(MAX_PADDING),
+          child: AnimatedContainer(
+            curve: Curves.bounceInOut,
+            duration: Duration(milliseconds: 500),
+            height: double.parse(second) * (clockStyle.fontSize / 60),
+            width: double.parse(second) * (clockStyle.fontSize / 60),
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              gradient: new LinearGradient(
+                  begin: Alignment.bottomCenter,
+                  end: Alignment.topCenter,
                   colors: (Theme.of(context).brightness == Brightness.light)
                       ? [
                           Colors.pinkAccent,
-                          Colors.yellow.withAlpha(200),
+                          Colors.orange,
+                          Colors.yellow,
                         ]
                       : [
-                          Colors.tealAccent,
-                          Colors.cyan.withAlpha(200),
-                        ],
-                ),
-              ),
+                          Colors.deepPurpleAccent,
+                          Colors.teal,
+                          Colors.cyan,
+                        ]),
             ),
           ),
         ),
-        Align(
-          alignment: Alignment.center,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              DefaultTextStyle(
-                style: clockStyle,
-                child: Text(hour),
-              ),
-              Container(
-                height: clockStyle.fontSize,
-                width: clockStyle.fontSize,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.transparent,
-                ),
-              ),
-              DefaultTextStyle(
-                style: clockStyle,
-                child: Text(minute),
-              ),
-            ],
-          ),
+        DefaultTextStyle(
+          style: clockStyle,
+          child: Text(minute),
+        ),
+        DefaultTextStyle(
+          style: clockStyleSmall,
+          child: Text("m"),
         ),
       ],
     );
