@@ -17,15 +17,15 @@ enum _Element {
 }
 
 final _lightTheme = {
-  _Element.wallpaper: 'assets/lightThemeWallpaper.png',
+  _Element.wallpaper: 'assets/lightThemeWallpaperVariant.png',
   _Element.background: Colors.white70,
   _Element.clock_text: Colors.black,
   _Element.card_text: Colors.black,
 };
 
 final _darkTheme = {
-  _Element.wallpaper: 'assets/darkThemeWallpaper.png',
-  _Element.background: Colors.black38,
+  _Element.wallpaper: 'assets/darkThemeWallpaperVariant.png',
+  _Element.background: Colors.black87,
   _Element.clock_text: Colors.white,
   _Element.card_text: Colors.white,
 };
@@ -108,24 +108,18 @@ class _DigitalClockState extends State<DigitalClock> {
       fontWeight: FontWeight.bold,
     );
 
-    final clockStyleSmall = TextStyle(
-      color: colors[_Element.clock_text],
-      fontFamily: 'Google Sans',
-      fontSize: 35,
-      fontWeight: FontWeight.bold,
-    );
-
     final cardStyle = TextStyle(
       color: colors[_Element.card_text],
       fontFamily: 'Google Sans',
-      fontSize: 18,
+      fontSize: 25,
       fontWeight: FontWeight.bold,
     );
 
-    const double MIN_PADDING = 2;
-    const double MAX_PADDING = 5;
+    const double PADDING = 5;
+    const double CARD_BORDER_RADIUS = 10;
+    const double CARD_ELEVATION = 10;
 
-    final clockContainer = new Row(
+    final clockContainer = Row(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
@@ -134,19 +128,29 @@ class _DigitalClockState extends State<DigitalClock> {
           child: Text(hour),
         ),
         DefaultTextStyle(
-          style: clockStyleSmall,
-          child: Text("h"),
+          style: TextStyle(
+            color: colors[_Element.clock_text],
+            fontFamily: 'Google Sans',
+            fontSize: 150,
+            fontWeight: FontWeight.bold,
+            height: 0.90,
+          ),
+          child: Text(":"),
+        ),
+        DefaultTextStyle(
+          style: clockStyle,
+          child: Text(minute),
         ),
         Padding(
-          padding: EdgeInsets.all(MAX_PADDING),
+          padding: EdgeInsets.all(PADDING),
           child: AnimatedContainer(
-            curve: Curves.bounceInOut,
-            duration: Duration(milliseconds: 500),
+            curve: Curves.linear,
+            duration: Duration(seconds: 1),
             height: double.parse(second) * (clockStyle.fontSize / 60),
             width: double.parse(second) * (clockStyle.fontSize / 60),
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              gradient: new LinearGradient(
+              gradient: LinearGradient(
                   begin: Alignment.bottomCenter,
                   end: Alignment.topCenter,
                   colors: (Theme.of(context).brightness == Brightness.light)
@@ -157,54 +161,46 @@ class _DigitalClockState extends State<DigitalClock> {
                         ]
                       : [
                           Colors.deepPurpleAccent,
-                          Colors.teal,
                           Colors.cyan,
+                          Colors.tealAccent,
                         ]),
             ),
           ),
         ),
-        DefaultTextStyle(
-          style: clockStyle,
-          child: Text(minute),
-        ),
-        DefaultTextStyle(
-          style: clockStyleSmall,
-          child: Text("m"),
-        ),
       ],
     );
 
-    final cardsContainer = new Container(
+    final cardsContainer = Container(
       child: Padding(
-        padding: EdgeInsets.all(MIN_PADDING),
-        child: new Row(
+        padding: EdgeInsets.all(PADDING),
+        child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Card(
-              elevation: 5.0,
+              elevation: CARD_ELEVATION,
               color: colors[_Element.background],
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(100),
+                borderRadius: BorderRadius.circular(CARD_BORDER_RADIUS),
               ),
               child: Padding(
-                padding: EdgeInsets.all(MAX_PADDING),
+                padding: EdgeInsets.all(PADDING),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     Padding(
-                        padding: EdgeInsets.all(MAX_PADDING),
+                        padding: EdgeInsets.all(PADDING),
                         child: Icon(
                           getWeatherIcon(),
                           color: colors[_Element.card_text],
-                          size: cardStyle.fontSize * 2,
+                          size: cardStyle.fontSize,
                         )),
                     Padding(
-                      padding: EdgeInsets.all(MAX_PADDING),
+                      padding: EdgeInsets.all(PADDING),
                       child: DefaultTextStyle(
                         style: cardStyle,
-                        child: Text("Temperature: \n" + _temperature),
+                        child: Text(_temperature),
                       ),
                     ),
                   ],
@@ -212,29 +208,29 @@ class _DigitalClockState extends State<DigitalClock> {
               ),
             ),
             Card(
-              elevation: 5.0,
+              elevation: CARD_ELEVATION,
               color: colors[_Element.background],
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(100),
+                borderRadius: BorderRadius.circular(CARD_BORDER_RADIUS),
               ),
               child: Padding(
-                padding: EdgeInsets.all(MAX_PADDING),
+                padding: EdgeInsets.all(PADDING),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     Padding(
-                        padding: EdgeInsets.all(MAX_PADDING),
+                        padding: EdgeInsets.all(PADDING),
                         child: Icon(
                           Icons.calendar_today,
                           color: colors[_Element.card_text],
-                          size: cardStyle.fontSize * 2,
+                          size: cardStyle.fontSize,
                         )),
                     Padding(
-                      padding: EdgeInsets.all(MAX_PADDING),
+                      padding: EdgeInsets.all(PADDING),
                       child: DefaultTextStyle(
                         style: cardStyle,
-                        child: Text("Today is: \n" + month + ", " + day),
+                        child: Text(month + " " + day),
                       ),
                     ),
                   ],
@@ -243,29 +239,29 @@ class _DigitalClockState extends State<DigitalClock> {
             ),
             //Clock card is only a placeholder. Doesnt get any alarm info
             Card(
-              elevation: 5.0,
+              elevation: CARD_ELEVATION,
               color: colors[_Element.background],
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(100),
+                borderRadius: BorderRadius.circular(CARD_BORDER_RADIUS),
               ),
               child: Padding(
-                padding: EdgeInsets.all(MAX_PADDING),
+                padding: EdgeInsets.all(PADDING),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     Padding(
-                        padding: EdgeInsets.all(MAX_PADDING),
+                        padding: EdgeInsets.all(PADDING),
                         child: Icon(
                           Icons.alarm,
                           color: colors[_Element.card_text],
-                          size: cardStyle.fontSize * 2,
+                          size: cardStyle.fontSize,
                         )),
                     Padding(
-                      padding: EdgeInsets.all(MAX_PADDING),
+                      padding: EdgeInsets.all(PADDING),
                       child: DefaultTextStyle(
                         style: cardStyle,
-                        child: Text("Next alarm:\n5:00"),
+                        child: Text("5:00"),
                       ),
                     ),
                   ],
@@ -277,7 +273,7 @@ class _DigitalClockState extends State<DigitalClock> {
       ),
     );
 
-    return new Scaffold(
+    return Scaffold(
       body: Stack(
         children: <Widget>[
           Image.asset(
