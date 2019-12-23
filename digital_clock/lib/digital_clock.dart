@@ -25,7 +25,7 @@ final _lightTheme = {
 
 final _darkTheme = {
   _Element.wallpaper: 'assets/darkThemeWallpaperVariant.png',
-  _Element.background: Colors.black87,
+  _Element.background: Colors.black54,
   _Element.clock_text: Colors.white,
   _Element.card_text: Colors.white,
 };
@@ -98,178 +98,166 @@ class _DigitalClockState extends State<DigitalClock> {
         DateFormat(widget.model.is24HourFormat ? 'HH' : 'hh').format(_dateTime);
     final minute = DateFormat('mm').format(_dateTime);
     final second = DateFormat('ss').format(_dateTime);
-    final day = DateFormat('dd').format(_dateTime);
-    final month = DateFormat('MMM').format(_dateTime);
+    final date = DateFormat('EEEE, MMM d').format(_dateTime);
 
     final clockStyle = TextStyle(
       color: colors[_Element.clock_text],
-      fontFamily: 'Google Sans',
+      fontFamily: 'Open Sans',
       fontSize: 150,
       fontWeight: FontWeight.bold,
     );
 
     final cardStyle = TextStyle(
       color: colors[_Element.card_text],
-      fontFamily: 'Google Sans',
+      fontFamily: 'Open Sans',
       fontSize: 25,
-      fontWeight: FontWeight.bold,
+      fontWeight: FontWeight.w500,
     );
 
     const double PADDING = 5;
     const double CARD_BORDER_RADIUS = 10;
-    const double CARD_ELEVATION = 10;
+    const double CARD_ELEVATION = 30;
 
     final clockContainer = Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
         DefaultTextStyle(
           style: clockStyle,
           child: Text(hour),
         ),
-        DefaultTextStyle(
-          style: TextStyle(
-            color: colors[_Element.clock_text],
-            fontFamily: 'Google Sans',
-            fontSize: 150,
-            fontWeight: FontWeight.bold,
-            height: 0.90,
+        Center(
+          child: Padding(
+            padding: EdgeInsets.all(PADDING),
+            child: AnimatedContainer(
+              curve: Curves.linear,
+              duration: Duration(seconds: 1),
+              height: double.parse(second) * (clockStyle.fontSize / 60),
+              width: double.parse(second) * (clockStyle.fontSize / 60),
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                gradient: LinearGradient(
+                    begin: Alignment.bottomCenter,
+                    end: Alignment.topCenter,
+                    colors: (Theme.of(context).brightness == Brightness.light)
+                        ? [
+                            Colors.pinkAccent,
+                            Colors.orange,
+                            Colors.yellow,
+                          ]
+                        : [
+                            Colors.deepPurpleAccent,
+                            Colors.cyan,
+                            Colors.tealAccent,
+                          ]),
+              ),
+            ),
           ),
-          child: Text(":"),
         ),
         DefaultTextStyle(
           style: clockStyle,
           child: Text(minute),
         ),
-        Padding(
-          padding: EdgeInsets.all(PADDING),
-          child: AnimatedContainer(
-            curve: Curves.linear,
-            duration: Duration(seconds: 1),
-            height: double.parse(second) * (clockStyle.fontSize / 60),
-            width: double.parse(second) * (clockStyle.fontSize / 60),
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              gradient: LinearGradient(
-                  begin: Alignment.bottomCenter,
-                  end: Alignment.topCenter,
-                  colors: (Theme.of(context).brightness == Brightness.light)
-                      ? [
-                          Colors.pinkAccent,
-                          Colors.orange,
-                          Colors.yellow,
-                        ]
-                      : [
-                          Colors.deepPurpleAccent,
-                          Colors.cyan,
-                          Colors.tealAccent,
-                        ]),
-            ),
-          ),
-        ),
       ],
     );
 
     final cardsContainer = Container(
-      child: Padding(
-        padding: EdgeInsets.all(PADDING),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Card(
-              elevation: CARD_ELEVATION,
-              color: colors[_Element.background],
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(CARD_BORDER_RADIUS),
-              ),
-              child: Padding(
-                padding: EdgeInsets.all(PADDING),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Padding(
-                        padding: EdgeInsets.all(PADDING),
-                        child: Icon(
-                          getWeatherIcon(),
-                          color: colors[_Element.card_text],
-                          size: cardStyle.fontSize,
-                        )),
-                    Padding(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Card(
+            elevation: CARD_ELEVATION,
+            color: colors[_Element.background],
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(CARD_BORDER_RADIUS),
+            ),
+            child: Padding(
+              padding: EdgeInsets.all(PADDING),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Padding(
                       padding: EdgeInsets.all(PADDING),
-                      child: DefaultTextStyle(
-                        style: cardStyle,
-                        child: Text(_temperature),
-                      ),
+                      child: Icon(
+                        getWeatherIcon(),
+                        color: colors[_Element.card_text],
+                        size: cardStyle.fontSize,
+                      )),
+                  Padding(
+                    padding: EdgeInsets.all(PADDING),
+                    child: DefaultTextStyle(
+                      style: cardStyle,
+                      child: Text(_temperature),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
-            Card(
-              elevation: CARD_ELEVATION,
-              color: colors[_Element.background],
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(CARD_BORDER_RADIUS),
-              ),
-              child: Padding(
-                padding: EdgeInsets.all(PADDING),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Padding(
-                        padding: EdgeInsets.all(PADDING),
-                        child: Icon(
-                          Icons.calendar_today,
-                          color: colors[_Element.card_text],
-                          size: cardStyle.fontSize,
-                        )),
-                    Padding(
+          ),
+          Card(
+            elevation: CARD_ELEVATION,
+            color: colors[_Element.background],
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(CARD_BORDER_RADIUS),
+            ),
+            child: Padding(
+              padding: EdgeInsets.all(PADDING),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Padding(
                       padding: EdgeInsets.all(PADDING),
-                      child: DefaultTextStyle(
-                        style: cardStyle,
-                        child: Text(month + " " + day),
-                      ),
+                      child: Icon(
+                        Icons.calendar_today,
+                        color: colors[_Element.card_text],
+                        size: cardStyle.fontSize,
+                      )),
+                  Padding(
+                    padding: EdgeInsets.all(PADDING),
+                    child: DefaultTextStyle(
+                      style: cardStyle,
+                      child: Text(date),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
-            //Clock card is only a placeholder. Doesnt get any alarm info
-            Card(
-              elevation: CARD_ELEVATION,
-              color: colors[_Element.background],
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(CARD_BORDER_RADIUS),
-              ),
-              child: Padding(
-                padding: EdgeInsets.all(PADDING),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Padding(
-                        padding: EdgeInsets.all(PADDING),
-                        child: Icon(
-                          Icons.alarm,
-                          color: colors[_Element.card_text],
-                          size: cardStyle.fontSize,
-                        )),
-                    Padding(
+          ),
+          //Clock card is only a placeholder. Doesnt get any alarm info
+          Card(
+            elevation: CARD_ELEVATION,
+            color: colors[_Element.background],
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(CARD_BORDER_RADIUS),
+            ),
+            child: Padding(
+              padding: EdgeInsets.all(PADDING),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Padding(
                       padding: EdgeInsets.all(PADDING),
-                      child: DefaultTextStyle(
-                        style: cardStyle,
-                        child: Text("5:00"),
-                      ),
+                      child: Icon(
+                        Icons.alarm,
+                        color: colors[_Element.card_text],
+                        size: cardStyle.fontSize,
+                      )),
+                  Padding(
+                    padding: EdgeInsets.all(PADDING),
+                    child: DefaultTextStyle(
+                      style: cardStyle,
+                      child: Text("5:00"),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
 
@@ -282,7 +270,7 @@ class _DigitalClockState extends State<DigitalClock> {
             height: MediaQuery.of(context).size.height,
           ),
           Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisSize: MainAxisSize.max,
             children: <Widget>[

@@ -19,12 +19,14 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   fonts:
-    - family: PressStart2P
+    - family: Open Sans
       fonts:
-        - asset: third_party/PressStart2P-Regular.ttf
+        - asset: assets/fonts/OpenSans-Bold.ttf
+        - asset: assets/fonts/OpenSans-Light.ttf
+        - asset: assets/fonts/OpenSans-Regular.ttf
     - family:  WeatherIcons
       fonts:
-        - asset: fonts/WeatherIcons.ttf
+        - asset: assets/fonts/WeatherIcons.ttf
   assets:
     - assets/lightThemeWallpaper.png
     - assets/lightThemeWallpaperVariant.png
