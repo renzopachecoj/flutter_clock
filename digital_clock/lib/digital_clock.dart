@@ -103,7 +103,7 @@ class _DigitalClockState extends State<DigitalClock> {
     final clockStyle = TextStyle(
       color: colors[_Element.clock_text],
       fontFamily: 'Open Sans',
-      fontSize: 150,
+      fontSize: 160,
       fontWeight: FontWeight.bold,
     );
 
@@ -119,38 +119,36 @@ class _DigitalClockState extends State<DigitalClock> {
     const double CARD_ELEVATION = 30;
 
     final clockContainer = Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
         DefaultTextStyle(
           style: clockStyle,
           child: Text(hour),
         ),
-        Center(
-          child: Padding(
-            padding: EdgeInsets.all(PADDING),
-            child: AnimatedContainer(
-              curve: Curves.linear,
-              duration: Duration(seconds: 1),
-              height: double.parse(second) * (clockStyle.fontSize / 60),
-              width: double.parse(second) * (clockStyle.fontSize / 60),
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                gradient: LinearGradient(
-                    begin: Alignment.bottomCenter,
-                    end: Alignment.topCenter,
-                    colors: (Theme.of(context).brightness == Brightness.light)
-                        ? [
-                            Colors.pinkAccent,
-                            Colors.orange,
-                            Colors.yellow,
-                          ]
-                        : [
-                            Colors.deepPurpleAccent,
-                            Colors.cyan,
-                            Colors.tealAccent,
-                          ]),
-              ),
+        Padding(
+          padding: EdgeInsets.all(PADDING),
+          child: AnimatedContainer(
+            curve: Curves.bounceInOut,
+            duration: Duration(seconds: 1),
+            height: double.parse(second) * (clockStyle.fontSize / 60),
+            width: double.parse(second) * (clockStyle.fontSize / 60),
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              gradient: LinearGradient(
+                  begin: Alignment.bottomCenter,
+                  end: Alignment.topCenter,
+                  colors: (Theme.of(context).brightness == Brightness.light)
+                      ? [
+                          Colors.pinkAccent,
+                          Colors.orange,
+                          Colors.yellow,
+                        ]
+                      : [
+                          Colors.deepPurpleAccent,
+                          Colors.cyan,
+                          Colors.tealAccent,
+                        ]),
             ),
           ),
         ),

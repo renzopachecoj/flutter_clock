@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'digital_clock.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized(); 
   // A temporary measure until Platform supports web and TargetPlatform supports
   // macOS.
   if (!kIsWeb && Platform.isMacOS) {
