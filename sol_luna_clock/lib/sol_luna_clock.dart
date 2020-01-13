@@ -102,14 +102,14 @@ class _DigitalClockState extends State<DigitalClock> {
 
     final clockStyle = TextStyle(
       color: colors[_Element.clock_text],
-      fontFamily: 'Open Sans',
+      fontFamily: 'OpenSans-Regular',
       fontSize: 165,
       fontWeight: FontWeight.bold,
     );
 
     final cardStyle = TextStyle(
       color: colors[_Element.card_text],
-      fontFamily: 'Open Sans',
+      fontFamily: 'OpenSans-Regular',
       fontSize: 25,
       fontWeight: FontWeight.w500,
     );
