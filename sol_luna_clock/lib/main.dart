@@ -35,6 +35,6 @@ void main() {
   SystemChrome.setPreferredOrientations(
           [DeviceOrientation.landscapeRight, DeviceOrientation.landscapeLeft])
       .then((_) {
-    runApp(ClockCustomizer((ClockModel model) => DigitalClock(model)));
+    runApp(ClockCustomizer((ClockModel model) => SolLunaClock(model)));
   });
 }

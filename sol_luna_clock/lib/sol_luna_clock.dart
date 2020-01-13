@@ -30,16 +30,16 @@ final _darkTheme = {
   _Element.card_text: Colors.white,
 };
 
-class DigitalClock extends StatefulWidget {
-  const DigitalClock(this.model);
+class SolLunaClock extends StatefulWidget {
+  const SolLunaClock(this.model);
 
   final ClockModel model;
 
   @override
-  _DigitalClockState createState() => _DigitalClockState();
+  _SolLunaClockState createState() => _SolLunaClockState();
 }
 
-class _DigitalClockState extends State<DigitalClock> {
+class _SolLunaClockState extends State<SolLunaClock> {
   DateTime _dateTime = DateTime.now();
   Timer _timer;
   var _temperature = '';
@@ -54,7 +54,7 @@ class _DigitalClockState extends State<DigitalClock> {
   }
 
   @override
-  void didUpdateWidget(DigitalClock oldWidget) {
+  void didUpdateWidget(SolLunaClock oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.model != oldWidget.model) {
       oldWidget.model.removeListener(_updateModel);
@@ -102,16 +102,16 @@ class _DigitalClockState extends State<DigitalClock> {
 
     final clockStyle = TextStyle(
       color: colors[_Element.clock_text],
-      fontFamily: 'OpenSans-Regular',
+      fontFamily: 'OpenSans',
       fontSize: 165,
-      fontWeight: FontWeight.bold,
+      fontWeight: FontWeight.normal,
     );
 
     final cardStyle = TextStyle(
       color: colors[_Element.card_text],
-      fontFamily: 'OpenSans-Regular',
+      fontFamily: 'OpenSans',
       fontSize: 25,
-      fontWeight: FontWeight.w500,
+      fontWeight: FontWeight.w400,
     );
 
     const double PADDING = 5;

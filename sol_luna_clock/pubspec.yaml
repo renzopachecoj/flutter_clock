@@ -19,10 +19,10 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   fonts:
-    - family: Open Sans
+    - family: OpenSans
       fonts:
-        - asset: assets/fonts/OpenSans-Bold.ttf
-        - asset: assets/fonts/OpenSans-Light.ttf
+        #- asset: assets/fonts/OpenSans-Bold.ttf
+        #- asset: assets/fonts/OpenSans-Light.ttf
         - asset: assets/fonts/OpenSans-Regular.ttf
     - family:  WeatherIcons
       fonts:
