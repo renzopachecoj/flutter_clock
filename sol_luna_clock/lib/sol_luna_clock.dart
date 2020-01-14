@@ -11,20 +11,39 @@ import 'package:intl/intl.dart';
 
 enum _Element {
   wallpaper,
+  circle,
   background,
   clock_text,
   card_text,
 }
 
 final _lightTheme = {
-  _Element.wallpaper: 'assets/lightThemeWallpaperVariant.png',
+  _Element.wallpaper: [
+    Color(0xff2980b9),
+    Color(0xff6dd5fa),
+    Color(0xffffffff),
+  ],
+  _Element.circle: [
+    Colors.pinkAccent,
+    Colors.orange,
+    Colors.yellow,
+  ],
   _Element.background: Colors.white70,
   _Element.clock_text: Colors.black,
   _Element.card_text: Colors.black,
 };
 
 final _darkTheme = {
-  _Element.wallpaper: 'assets/darkThemeWallpaperVariant.png',
+  _Element.wallpaper: [
+    Color(0xff2e4482),
+    Color(0xff131862),
+    Colors.black,
+  ],
+  _Element.circle: [
+    Colors.grey[300],
+    Colors.yellow,
+    
+  ],
   _Element.background: Colors.black54,
   _Element.clock_text: Colors.white,
   _Element.card_text: Colors.white,
@@ -129,7 +148,7 @@ class _SolLunaClockState extends State<SolLunaClock> {
         Padding(
           padding: EdgeInsets.all(PADDING),
           child: AnimatedContainer(
-            curve: Curves.bounceInOut,
+            curve: Curves.linear,
             duration: Duration(seconds: 1),
             height: double.parse(second) * (clockStyle.fontSize / 60),
             width: double.parse(second) * (clockStyle.fontSize / 60),
@@ -138,17 +157,7 @@ class _SolLunaClockState extends State<SolLunaClock> {
               gradient: LinearGradient(
                   begin: Alignment.bottomCenter,
                   end: Alignment.topCenter,
-                  colors: (Theme.of(context).brightness == Brightness.light)
-                      ? [
-                          Colors.pinkAccent,
-                          Colors.orange,
-                          Colors.yellow,
-                        ]
-                      : [
-                          Colors.pink[100],
-                          Colors.deepPurple[200],
-                          Colors.indigo,
-                        ]),
+                  colors: colors[_Element.circle]),
             ),
           ),
         ),
@@ -262,10 +271,14 @@ class _SolLunaClockState extends State<SolLunaClock> {
     return Scaffold(
       body: Stack(
         children: <Widget>[
-          Image.asset(
-            colors[_Element.wallpaper],
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
+          Container(
+            decoration: BoxDecoration(
+              shape: BoxShape.rectangle,
+              gradient: LinearGradient(
+                  begin: Alignment.bottomCenter,
+                  end: Alignment.topCenter,
+                  colors: colors[_Element.wallpaper]),
+            ),
           ),
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
