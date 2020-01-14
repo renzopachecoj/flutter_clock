@@ -42,7 +42,6 @@ final _darkTheme = {
   _Element.circle: [
     Colors.grey[300],
     Colors.yellow,
-    
   ],
   _Element.background: Colors.black54,
   _Element.clock_text: Colors.white,
@@ -145,20 +144,17 @@ class _SolLunaClockState extends State<SolLunaClock> {
           style: clockStyle,
           child: Text(hour),
         ),
-        Padding(
-          padding: EdgeInsets.all(PADDING),
-          child: AnimatedContainer(
-            curve: Curves.linear,
-            duration: Duration(seconds: 1),
-            height: double.parse(second) * (clockStyle.fontSize / 60),
-            width: double.parse(second) * (clockStyle.fontSize / 60),
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              gradient: LinearGradient(
-                  begin: Alignment.bottomCenter,
-                  end: Alignment.topCenter,
-                  colors: colors[_Element.circle]),
-            ),
+        AnimatedContainer(
+          curve: Curves.linear,
+          duration: Duration(seconds: 1),
+          height: double.parse(second) * (clockStyle.fontSize / 60),
+          width: double.parse(second) * (clockStyle.fontSize / 60),
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            gradient: LinearGradient(
+                begin: Alignment.bottomCenter,
+                end: Alignment.topCenter,
+                colors: colors[_Element.circle]),
           ),
         ),
         DefaultTextStyle(
